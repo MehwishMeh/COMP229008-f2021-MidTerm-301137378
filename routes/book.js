@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+let mongoose = require('mongoose');
 
 let bookController = require('../controllers/book');
 
@@ -19,6 +20,8 @@ router.get('/delete/:id', bookController.performDelete);
 // Routers for Add functions
 router.get('/add', bookController.displayAddPage);
 router.post('/add', bookController.processAddPage);
+
+ 
 
 
 module.exports = router;

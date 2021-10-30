@@ -57,13 +57,50 @@ module.exports.processAddPage = (req, res, next) => {
 
 // Gets a book by id and renders the Edit form using the add_edit.ejs template
 module.exports.displayEditPage = (req, res, next) => {
+    let id = req.params.id;
+
+    Book.findById(id, (err, bookToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('book/add_edit', {title: 'Edit Book', book: bookToEdit, 
+            displayName: req.user ? req.user.displayName : ''})
+        }
+    });
     
     // ADD YOUR CODE HERE
 
 }
 
 // Processes the data submitted from the Edit form to update a book
-module.exports.processEditPage = (req, res, next) => {
+module.exports.processEditPage = (req, res, next) => {let id = req.params.id
+
+    let updatedBook = Book({
+        "_id": id,
+        "Title": req.body.title,
+        "Description": req.body.description,
+        "Author": req.body.Author,
+        "Genre": req.body.Genre,
+        "price": req.body.price
+    });
+
+    Book.updateOne({_id: id}, updatedBook, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            res.redirect('/book/list');
+        }
+    });
     
     // ADD YOUR CODE HERE
     
