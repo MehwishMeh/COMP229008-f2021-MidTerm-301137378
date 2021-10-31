@@ -43,13 +43,57 @@ module.exports.details = (req, res, next) => {
 
 // Renders the Add form using the add_edit.ejs template
 module.exports.displayAddPage = (req, res, next) => {
-    
-    // ADD YOUR CODE HERE        
+    res.render('book/add_edit.ejs', {title: 'Add Book', 
+    displayName: req.user ? req.user.displayName : ''})          
+}
 
+module.exports.processAddPage = (req, res, next) => {
+    let newBook = Book({
+        "name": req.body.name,
+        "author": req.body.author,
+        "published": req.body.published,
+        "description": req.body.description,
+        "price": req.body.price
+    });
+
+    Book.create(newBook, (err, Book) =>{
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            res.redirect('/book-list');
+        }
+    });    
 }
 
 // Processes the data submitted from the Add form to create a new book
 module.exports.processAddPage = (req, res, next) => {
+    module.exports.processAddPage = (req, res, next) => {
+        let newBook = Book({
+            "Title": req.body.title,
+            "Description": req.body.description,
+            "Author": req.body.Author,
+            "Genre": req.body.Genre,
+            "price": req.body.price
+        });
+    
+        Book.create(newBook, (err, Book) =>{
+            if(err)
+            {
+                console.log(err);
+                res.end(err);
+            }
+            else
+            {
+                // refresh the book list
+                res.redirect('/book/list');
+            }
+        });    
+    }
 
     // ADD YOUR CODE HERE
 
@@ -72,8 +116,6 @@ module.exports.displayEditPage = (req, res, next) => {
             displayName: req.user ? req.user.displayName : ''})
         }
     });
-    
-    // ADD YOUR CODE HERE
 
 }
 
@@ -102,13 +144,23 @@ module.exports.processEditPage = (req, res, next) => {let id = req.params.id
         }
     });
     
-    // ADD YOUR CODE HERE
-    
 }
 
 // Deletes a book based on its id.
 module.exports.performDelete = (req, res, next) => {
-    
-    // ADD YOUR CODE HERE
+    let id = req.params.id;
+
+    Book.remove({_id: id}, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+             // refresh the book list
+             res.redirect('/book/list');
+        }
+    });
 
 }
