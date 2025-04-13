@@ -1,0 +1,60 @@
+<%- include ../partials/header.ejs %>
+
+<!-- Content for the Add_Edit page -->
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-9">
+            <h1><%= title %></h1>
+
+                <div class="form-group">
+                    <label for="bookTextField">Title</label>
+                    <strong><%= book.Title %></strong>
+                </div>
+                <div class="form-group">
+                    <label for="bookTextField">Description</label>
+                    <strong><%= book.Description %></strong>
+                </div>
+                <div class="form-group">
+                    <label for="statusTextField">Price</label>
+                    <strong>$<%= book.Price %></strong>                    
+                </div>
+                <div class="form-group">
+                    <label for="bookTextField">Author</label>
+                    <strong><%= book.Author %></strong>
+                </div>
+                <div class="form-group">
+                    <label for="bookTextField">Genre</label>
+                    <strong><%= book.Genre %></strong>
+                </div>
+                <br />
+                
+                <!--Repeatable template Row --> 
+                <% for(let count = 0; count < BookList.length; count++) { %>
+                    <tr class="d-flex">
+                        <td class="text-center col-2"><%= BookList[count].name %></td>
+                        <td class="text-center col-2"><%= BookList[count].author %></td>
+                        <td class="text-center col-1"><%= BookList[count].published %></td>
+                        <td class="col-4"><%= BookList[count].description %></td>
+                        <td class="text-center col-1"><%= BookList[count].price %></td>
+                        <td class="text-center col-1"><%= BookList[count].genre %> </td>
+                        <td class="text-center col-1">
+                            <a href="/Book List-list/edit/<%= BookList[count]._id %>" class="btn btn-primary btn-sm">
+                            <i class="fas fa-pencil-alt"></i> Edit</a>
+                        </td>
+                        <td class="text-center col-1">
+                            <a href="/book-list/delete/<%= BookList[count]._id %>" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Delete</a>
+                        </td>
+                    </tr>               
+                <a href="/book/list" class="btn btn-warning">
+                    <i class="fas fa-undo"></i> 
+                    Cancel
+                </a>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<%- include ../partials/footer.ejs %>
